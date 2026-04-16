@@ -1,0 +1,146 @@
+:root {
+  --ink: #1a2433;
+  --muted: #5f6d7d;
+  --paper: #f6f4ee;
+  --panel: #fffdf6;
+  --line: #d7d6ce;
+  --accent: #0f8d74;
+  --accent-2: #e08a2d;
+  --danger: #b83232;
+  --shadow: 0 12px 32px rgba(21, 32, 51, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 231, 182, 0.55), transparent 40%),
+    radial-gradient(circle at 80% 100%, rgba(159, 233, 214, 0.45), transparent 40%),
+    var(--paper);
+}
+
+.hero {
+  padding: 1.2rem 1rem 0.6rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font: 700 1.8rem/1.2 "Space Grotesk", "Segoe UI", sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.hero p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+.layout {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
+  padding: 0.8rem 1rem 1rem;
+}
+
+.map-panel,
+.details-panel {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+#map {
+  width: 100%;
+  height: min(74vh, 780px);
+  border-radius: 16px;
+}
+
+.details-panel {
+  padding: 1rem;
+}
+
+.panel-head h2 {
+  margin: 0;
+  font: 700 1.2rem/1.3 "Space Grotesk", "Segoe UI", sans-serif;
+}
+
+.panel-head p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+.controls {
+  margin-top: 0.9rem;
+}
+
+.controls-disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.notes-label {
+  display: block;
+  margin-top: 0.95rem;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
+}
+
+#note-input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.6rem 0.65rem;
+  resize: vertical;
+  min-height: 120px;
+  font: 400 0.98rem/1.4 "IBM Plex Sans", "Segoe UI", sans-serif;
+  background: #fff;
+}
+
+#note-input:focus,
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 60%, white);
+  outline-offset: 2px;
+}
+
+.note-meta {
+  margin-top: 0.45rem;
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.save-indicator {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.message {
+  margin-top: 1rem;
+  min-height: 1.4rem;
+  color: var(--danger);
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  #map {
+    height: 56vh;
+  }
+}

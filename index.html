@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vancouver Parks Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <h1>Vancouver Parks Tracker</h1>
+      <p>Track parks you have visited, save favorites, and write quick notes.</p>
+    </header>
+
+    <main class="layout">
+      <section class="map-panel" aria-label="Map panel">
+        <div id="map" aria-label="Map of Vancouver parks"></div>
+      </section>
+
+      <aside class="details-panel" aria-live="polite">
+        <div class="panel-head">
+          <h2 id="park-name">Select a park</h2>
+          <p id="status-text">Click a park boundary to add your tracker details.</p>
+        </div>
+
+        <div id="form-controls" class="controls controls-disabled">
+          <label class="toggle-row">
+            <input id="visited-toggle" type="checkbox" />
+            <span>Visited</span>
+          </label>
+
+          <label class="toggle-row">
+            <input id="favorite-toggle" type="checkbox" />
+            <span>Favorite</span>
+          </label>
+
+          <label class="notes-label" for="note-input">Notes</label>
+          <textarea
+            id="note-input"
+            rows="6"
+            maxlength="220"
+            placeholder="What did you like about this park?"
+          ></textarea>
+          <div class="note-meta">
+            <span id="note-count">0 / 220</span>
+            <span id="save-indicator" class="save-indicator">Saved</span>
+          </div>
+        </div>
+
+        <p id="app-message" class="message" role="status"></p>
+      </aside>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
