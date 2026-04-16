@@ -1,2 +1,6 @@
-Security check
 Legend/layer selection for favourites and visited
+Add option to clear localStorage data.
+Disallow favourite when not visited (grey out the option)
+Show favourite parks as larger green hearts (same colors), instead of hatched outline. 
+Show visited, parks as smaller
+Security check
