@@ -12,6 +12,8 @@ export function createMapView({
     minZoom: 10,
     maxZoom: 18,
     zoomControl: true,
+    zoomSnap: 0.25,
+    zoomDelta: 0.5,
   });
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
