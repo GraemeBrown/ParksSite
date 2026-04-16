@@ -92,6 +92,15 @@ body {
   font-weight: 500;
 }
 
+.toggle-row-disabled {
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.toggle-row-disabled input {
+  cursor: not-allowed;
+}
+
 .notes-label {
   display: block;
   margin-top: 0.95rem;

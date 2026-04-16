@@ -22,6 +22,10 @@ export function createParkStorage() {
       note: sanitizeNote(patch.note ?? current.note),
     };
 
+    if (!next.visited) {
+      next.favorite = false;
+    }
+
     const compact = {};
     if (next.visited) {
       compact.v = 1;

@@ -11,6 +11,7 @@ export function createDetailsUI({
 
   const visitedToggle = document.getElementById("visited-toggle");
   const favoriteToggle = document.getElementById("favorite-toggle");
+  const favoriteRow = favoriteToggle.closest(".toggle-row");
   const noteInput = document.getElementById("note-input");
   const noteCount = document.getElementById("note-count");
   const saveIndicator = document.getElementById("save-indicator");
@@ -50,6 +51,7 @@ export function createDetailsUI({
 
     visitedToggle.checked = state.visited;
     favoriteToggle.checked = state.favorite;
+    syncFavoriteAvailability(state.visited);
     noteInput.value = state.note;
 
     updateCount(state.note.length, maxNoteLength);
@@ -67,6 +69,7 @@ export function createDetailsUI({
 
     visitedToggle.checked = false;
     favoriteToggle.checked = false;
+    syncFavoriteAvailability(false);
     noteInput.value = "";
     updateCount(0, maxNoteLength);
     saveIndicator.textContent = "Saved";
@@ -80,6 +83,12 @@ export function createDetailsUI({
 
   function flashSaved() {
     saveIndicator.textContent = "Saved";
+  }
+
+  function syncFavoriteAvailability(isVisited) {
+    favoriteToggle.disabled = !isVisited;
+    favoriteToggle.checked = isVisited ? favoriteToggle.checked : false;
+    favoriteRow?.classList.toggle("toggle-row-disabled", !isVisited);
   }
 
   return {

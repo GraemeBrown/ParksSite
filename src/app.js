@@ -66,7 +66,8 @@ function handleVisitedChange(value) {
     return;
   }
 
-  storage.updatePark(selectedPark.id, { visited: value });
+  const nextState = storage.updatePark(selectedPark.id, { visited: value });
+  ui.setSelectedPark({ park: selectedPark, state: nextState });
   mapView.refreshStyles();
 }
 
@@ -75,7 +76,8 @@ function handleFavoriteChange(value) {
     return;
   }
 
-  storage.updatePark(selectedPark.id, { favorite: value });
+  const nextState = storage.updatePark(selectedPark.id, { favorite: value });
+  ui.setSelectedPark({ park: selectedPark, state: nextState });
   mapView.refreshStyles();
 }
 
