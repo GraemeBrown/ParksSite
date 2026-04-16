@@ -1,3 +1,0 @@
-Security check
-Consider self-hosting fonts/Leaflet/tile assets where practical to reduce third-party trust.
-Should this be https, not http?
