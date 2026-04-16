@@ -67,9 +67,7 @@ export function createMapView({
     geoLayer.eachLayer((layer) => {
       const feature = layer.feature;
       layer.setIcon(iconFor(feature.id));
-      if (feature.id === selectedParkId) {
-        layer.bringToFront();
-      }
+      layer.setZIndexOffset(feature.id === selectedParkId ? 1000 : 0);
     });
   }
 
