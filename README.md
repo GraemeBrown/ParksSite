@@ -57,6 +57,9 @@ ogr2ogr -f GeoJSON data/parks.geojson /path/to/parks.shp -nlt POINT -lco RFC7946
 
 Deploy as static files on GitHub Pages, Netlify, or similar.
 
+Security headers for clickjacking/CSP are included in `_headers` for hosts that support it (for example Netlify).
+If your host does not support custom response headers, configure equivalent settings in your reverse proxy/CDN.
+
 ## Notes
 
 - Basemap uses CARTO Positron tiles (OpenStreetMap data).

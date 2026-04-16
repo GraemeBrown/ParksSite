@@ -2,6 +2,12 @@ import { createParkStorage, MAX_NOTE_LENGTH } from "./storage.js";
 import { createMapView } from "./map.js";
 import { createDetailsUI } from "./ui.js";
 
+if (window.self !== window.top) {
+  document.body.innerHTML = "";
+  document.body.style.background = "#fff";
+  throw new Error("Blocked rendering inside an iframe.");
+}
+
 const VANCOUVER_CENTER = [49.2827, -123.1207];
 const DATA_URL = "./data/parks.geojson";
 
