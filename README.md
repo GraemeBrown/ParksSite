@@ -60,6 +60,9 @@ Deploy as static files on GitHub Pages, Netlify, or similar.
 Security headers for clickjacking/CSP are included in `_headers` for hosts that support it (for example Netlify).
 If your host does not support custom response headers, configure equivalent settings in your reverse proxy/CDN.
 
+Leaflet is self-hosted from `vendor/leaflet/` and fonts are served from local system font stacks to reduce third-party trust dependencies.
+Basemap tiles are still requested from CARTO/OpenStreetMap endpoints.
+
 ## Notes
 
 - Basemap uses CARTO Positron tiles (OpenStreetMap data).
