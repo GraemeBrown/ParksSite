@@ -4,6 +4,7 @@ export function createMapView({
   zoom,
   getParkState,
   onParkSelect,
+  onParkDeselect,
 }) {
   const map = L.map(containerId, {
     center,
@@ -23,6 +24,16 @@ export function createMapView({
   let selectedParkId = null;
   let geoLayer = null;
 
+  map.on("click", () => {
+    if (selectedParkId === null) {
+      return;
+    }
+
+    selectedParkId = null;
+    onParkDeselect();
+    refreshStyles();
+  });
+
   function setParks(features) {
     if (geoLayer) {
       geoLayer.remove();
@@ -30,8 +41,11 @@ export function createMapView({
 
     geoLayer = L.geoJSON(features, {
       style: (feature) => styleFor(feature.id),
+      pointToLayer: (feature, latlng) =>
+        L.circleMarker(latlng, pointStyleFor(feature.id)),
       onEachFeature: (feature, layer) => {
-        layer.on("click", () => {
+        layer.on("click", (event) => {
+          L.DomEvent.stopPropagation(event);
           selectedParkId = feature.id;
           onParkSelect(toPark(feature));
           refreshStyles();
@@ -59,26 +73,48 @@ export function createMapView({
 
     geoLayer.eachLayer((layer) => {
       const feature = layer.feature;
-      layer.setStyle(styleFor(feature.id));
+      if (layer instanceof L.CircleMarker) {
+        const pointStyle = pointStyleFor(feature.id);
+        layer.setStyle(pointStyle);
+        layer.setRadius(pointStyle.radius);
+      } else {
+        layer.setStyle(styleFor(feature.id));
+      }
+
       if (feature.id === selectedParkId) {
         layer.bringToFront();
       }
     });
   }
 
+  function pointStyleFor(parkId) {
+    const selected = parkId === selectedParkId;
+    const dimmed = selectedParkId !== null && !selected;
+
+    return {
+      radius: selected ? 8 : 6,
+      color: "#406140",
+      weight: selected ? 3 : 2,
+      opacity: dimmed ? 0.25 : 0.95,
+      fillColor: "#70a870",
+      fillOpacity: dimmed ? 0.2 : 0.9,
+    };
+  }
+
   function styleFor(parkId) {
     const state = getParkState(parkId);
     const selected = parkId === selectedParkId;
+    const dimmed = selectedParkId !== null && !selected;
 
     const color = state.favorite ? "#cb7a10" : state.visited ? "#0a8c64" : "#3a6c5d";
     const fillColor = state.visited ? "#73d1b3" : "#b7d8c8";
 
     return {
       color,
-      weight: selected ? 4 : 2,
-      opacity: 0.95,
+      weight: selected ? 4 : dimmed ? 1 : 2,
+      opacity: dimmed ? 0.25 : 0.95,
       fillColor,
-      fillOpacity: selected ? 0.7 : 0.4,
+      fillOpacity: selected ? 0.7 : dimmed ? 0.12 : 0.4,
       dashArray: state.favorite ? "8 4" : "",
     };
   }

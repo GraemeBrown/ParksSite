@@ -47,13 +47,28 @@ export function createDetailsUI({
     controlsEl.classList.remove("controls-disabled");
 
     nameEl.textContent = park.name;
-    statusEl.textContent = `ID: ${park.id}`;
 
     visitedToggle.checked = state.visited;
     favoriteToggle.checked = state.favorite;
     noteInput.value = state.note;
 
     updateCount(state.note.length, maxNoteLength);
+    saveIndicator.textContent = "Saved";
+
+    isHydrating = false;
+  }
+
+  function clearSelectedPark() {
+    isHydrating = true;
+
+    controlsEl.classList.add("controls-disabled");
+    nameEl.textContent = "Select a park";
+    statusEl.textContent = "Click a park boundary to add your tracker details.";
+
+    visitedToggle.checked = false;
+    favoriteToggle.checked = false;
+    noteInput.value = "";
+    updateCount(0, maxNoteLength);
     saveIndicator.textContent = "Saved";
 
     isHydrating = false;
@@ -69,6 +84,7 @@ export function createDetailsUI({
 
   return {
     setSelectedPark,
+    clearSelectedPark,
     setMessage,
     flashSaved,
   };

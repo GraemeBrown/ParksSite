@@ -19,6 +19,7 @@ const mapView = createMapView({
   zoom: 12,
   getParkState: (parkId) => storage.getParkState(parkId),
   onParkSelect: handleParkSelect,
+  onParkDeselect: handleParkDeselect,
 });
 
 let selectedPark = null;
@@ -53,6 +54,11 @@ function handleParkSelect(park) {
   selectedPark = park;
   const state = storage.getParkState(park.id);
   ui.setSelectedPark({ park, state });
+}
+
+function handleParkDeselect() {
+  selectedPark = null;
+  ui.clearSelectedPark();
 }
 
 function handleVisitedChange(value) {
