@@ -40,22 +40,13 @@ export function createMapView({
     }
 
     geoLayer = L.geoJSON(features, {
-      style: (feature) => styleFor(feature.id),
       pointToLayer: (feature, latlng) =>
-        L.circleMarker(latlng, pointStyleFor(feature.id)),
+        L.marker(latlng, { icon: iconFor(feature.id) }),
       onEachFeature: (feature, layer) => {
         layer.on("click", (event) => {
           L.DomEvent.stopPropagation(event);
           selectedParkId = feature.id;
           onParkSelect(toPark(feature));
-          refreshStyles();
-        });
-
-        layer.on("mouseover", () => {
-          layer.setStyle({ fillOpacity: 0.6 });
-        });
-
-        layer.on("mouseout", () => {
           refreshStyles();
         });
       },
@@ -73,50 +64,51 @@ export function createMapView({
 
     geoLayer.eachLayer((layer) => {
       const feature = layer.feature;
-      if (layer instanceof L.CircleMarker) {
-        const pointStyle = pointStyleFor(feature.id);
-        layer.setStyle(pointStyle);
-        layer.setRadius(pointStyle.radius);
-      } else {
-        layer.setStyle(styleFor(feature.id));
-      }
-
+      layer.setIcon(iconFor(feature.id));
       if (feature.id === selectedParkId) {
         layer.bringToFront();
       }
     });
   }
 
-  function pointStyleFor(parkId) {
-    const selected = parkId === selectedParkId;
-    const dimmed = selectedParkId !== null && !selected;
-
-    return {
-      radius: selected ? 8 : 6,
-      color: "#406140",
-      weight: selected ? 3 : 2,
-      opacity: dimmed ? 0.25 : 0.95,
-      fillColor: "#70a870",
-      fillOpacity: dimmed ? 0.2 : 0.9,
-    };
-  }
-
-  function styleFor(parkId) {
+  function iconFor(parkId) {
     const state = getParkState(parkId);
     const selected = parkId === selectedParkId;
     const dimmed = selectedParkId !== null && !selected;
+    const opacity = dimmed ? 0.25 : 1;
 
-    const color = state.favorite ? "#cb7a10" : state.visited ? "#0a8c64" : "#3a6c5d";
-    const fillColor = state.visited ? "#73d1b3" : "#b7d8c8";
+    if (state.favorite && state.visited) {
+      const fontSize = selected ? 50 : 39;
+      const size = fontSize + 6;
+      return L.divIcon({
+        className: "",
+        html: `<span style="font-size:${fontSize}px;color:#406140;opacity:${opacity};line-height:1;display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));user-select:none">&#9829;</span>`,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+      });
+    }
 
-    return {
-      color,
-      weight: selected ? 4 : dimmed ? 1 : 2,
-      opacity: dimmed ? 0.25 : 0.95,
-      fillColor,
-      fillOpacity: selected ? 0.7 : dimmed ? 0.12 : 0.4,
-      dashArray: state.favorite ? "8 4" : "",
-    };
+    if (state.visited) {
+      const r = selected ? 6 : 4;
+      const pad = 4;
+      const size = r * 2 + pad * 2;
+      return L.divIcon({
+        className: "",
+        html: `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" stroke="none" fill="#70a870" fill-opacity="${dimmed ? 0.25 : 0.9}" opacity="${opacity}"/></svg>`,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+      });
+    }
+
+    const r = selected ? 8 : 6;
+    const pad = 4;
+    const size = r * 2 + pad * 2;
+    return L.divIcon({
+      className: "",
+      html: `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" stroke="#406140" stroke-width="${selected ? 2.5 : 1.5}" fill="#70a870" fill-opacity="${dimmed ? 0.25 : 0.9}" opacity="${opacity}"/></svg>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+    });
   }
 
   function toPark(feature) {

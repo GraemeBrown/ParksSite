@@ -1,6 +1,3 @@
 Legend/layer selection for favourites and visited
 Add option to clear localStorage data.
-Disallow favourite when not visited (grey out the option)
-Show visited+favorite parks as slightly larger heart icons (same colors), and show visited non-favourites as smaller dots (dark green only, no fill).
-Show visited, parks as smaller
 Security check
