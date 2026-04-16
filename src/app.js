@@ -35,6 +35,18 @@ async function loadParks() {
 
     const geojson = await response.json();
     const normalized = normalizeFeatureCollection(geojson);
+
+    const nonPoints = normalized.features.filter(
+      (f) => f.geometry?.type !== "Point",
+    );
+    if (nonPoints.length > 0) {
+      const types = [...new Set(nonPoints.map((f) => f.geometry?.type ?? "unknown"))].join(", ");
+      throw new Error(
+        `All park features must be Point geometries, but found: ${types}. ` +
+          `Re-export your shapefile with point centroids (e.g. ogr2ogr with -nlt POINT).`,
+      );
+    }
+
     mapView.setParks(normalized.features);
 
     ui.setMessage(

@@ -47,6 +47,12 @@ Expected properties per feature:
 
 If no source ID exists, the app generates a deterministic fallback from name and index.
 
+**Geometry requirement:** every feature must be a `Point`. The app validates this at load time and shows an error if any non-Point geometry is found. If your source data contains polygons, convert to centroids before export:
+
+```bash
+ogr2ogr -f GeoJSON data/parks.geojson /path/to/parks.shp -nlt POINT -lco RFC7946=YES -lco COORDINATE_PRECISION=5
+```
+
 ## Deploy
 
 Deploy as static files on GitHub Pages, Netlify, or similar.
