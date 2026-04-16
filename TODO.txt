@@ -1,3 +1,2 @@
-Legend/layer selection for favourites and visited
 Add option to clear localStorage data.
 Security check
