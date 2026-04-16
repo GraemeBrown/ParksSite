@@ -144,6 +144,31 @@ input[type="checkbox"]:focus-visible {
   color: var(--danger);
 }
 
+.page-actions {
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 1.2rem;
+}
+
+.danger-button {
+  border: 1px solid color-mix(in srgb, var(--danger) 55%, var(--line));
+  background: color-mix(in srgb, var(--danger) 10%, white);
+  color: var(--danger);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  font: 600 0.92rem/1.2 "IBM Plex Sans", "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+
+.danger-button:hover {
+  background: color-mix(in srgb, var(--danger) 18%, white);
+}
+
+.danger-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--danger) 65%, white);
+  outline-offset: 2px;
+}
+
 @media (max-width: 960px) {
   .layout {
     grid-template-columns: 1fr;

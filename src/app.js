@@ -22,6 +22,9 @@ const mapView = createMapView({
   onParkDeselect: handleParkDeselect,
 });
 
+const clearStorageButton = document.getElementById("clear-storage-btn");
+clearStorageButton?.addEventListener("click", handleClearStorage);
+
 let selectedPark = null;
 
 void loadParks();
@@ -100,6 +103,27 @@ function handleNoteChange(note) {
 
   storage.updatePark(selectedPark.id, { note });
   ui.flashSaved();
+}
+
+function handleClearStorage() {
+  const confirmed = window.confirm(
+    "Clear all saved park data (visited, favourite, and notes) from this browser? This cannot be undone.",
+  );
+  if (!confirmed) {
+    return;
+  }
+
+  storage.clearAll();
+  mapView.refreshStyles();
+
+  if (selectedPark) {
+    ui.setSelectedPark({
+      park: selectedPark,
+      state: storage.getParkState(selectedPark.id),
+    });
+  }
+
+  ui.setMessage("Saved park data has been cleared.");
 }
 
 function normalizeFeatureCollection(geojson) {

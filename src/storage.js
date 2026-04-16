@@ -47,6 +47,15 @@ export function createParkStorage() {
     return next;
   }
 
+  function clearAll() {
+    state = emptyState();
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+      console.error("Unable to clear park data.", error);
+    }
+  }
+
   function persist() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -81,6 +90,7 @@ export function createParkStorage() {
   return {
     getParkState,
     updatePark,
+    clearAll,
   };
 }
 
